@@ -1,0 +1,27 @@
+{% include 'nav.html' %}
+<div class="main">
+{% block content %}
+  <!-- {% for pqrsb in pqrs_rat %}
+    <a href="{{ url_for('showInstitutions',pqrsid=pqrsb.id)}}">{{pqrsb.name}}</a><br>
+    {% endfor %} -->
+    {% with messages = get_flashed_messages() %}
+	    {% if messages %}
+	        <div class="alert alert-success alert-dismissable animated fadeIn">
+	            {% for message in messages %}
+	            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+	            <p class="h4"><strong>{{ message }}</strong></p>
+	            {% endfor %}
+	        </div>
+	    {% endif %}
+	{% endwith %}
+
+	<div class="text-center">
+		<!-- <h1>Welcome to Bookstore</h1> -->
+		<img style="width: 80%; height: 100%; margin: 0; padding: 0; margin-top: 100px;margin-bottom: 0px;"src="http://www.ptischool.com/wp-content/uploads/2016/03/small-logo.jpg">
+	
+">
+	</div>
+
+    
+{% endblock content %}
+</div>

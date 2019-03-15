@@ -1,0 +1,53 @@
+{% include 'nav.html' %}
+<body style="background-color:rgb(225, 167, 162)">
+
+<div class="main">
+{% block content %}
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	        <div class="alert alert-success alert-dismissable animated fadeIn">
+	            {% for message in messages %}
+	            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+	            <p class="h4"><strong>{{ message }}</strong></p>
+	            {% endfor %}
+	        </div>
+	{% endif %}	    
+{% endwith %}
+{% if 'username' in session %}
+<button type="button" class="btn btn-warning" style="margin: 5px 0px 5px 25px;background-color:green;"><a href="{{url_for('addInstitutionDetails',pqrsbname=pqrs.name)}}" style="color:white" >Add New Institution Course</strong></a></button>
+
+{% endif %}
+<div class="row" style="margin: 10px;">
+{% for pqrse in pqres %}
+
+	<div class="col-sm-4 text-center">
+		<div class="panel panel-primary">
+			<div class="panel-heading"  style="background-color:green">
+				<h4>{{ pqrse.name }}</h4>
+			</div>
+			<div class="panel-body text-center">
+				<table>
+					<tr><th>name</th><td>:</td><td><h5>{{ pqrse.name }}</h5></td></tr>
+					<tr><th>duration</th><td>:</td><td><h5>{{ pqrse.duration }}</h5></td></tr>
+					<tr><th>address</th><td>:</td><td><h5>{{ pqrse.address}}</h5></td></tr>
+					<tr><th>fee</th><td>:</td><td><h5>{{ pqrse.fee }}</h5></td></tr>
+					<tr><th>feedback</th><td>:</td><td><h5>{{ pqrse.feedback }}</h5></td></tr>
+				</table>
+			</div>
+			{% if 'username' in session %}
+			<div class="panel-footer">
+					<button type="button" class="btn btn-info" style="background-color:green"><a href="{{
+					url_for('editInstitutionCourse',pqrsid=pqrs.id,pqrsbename=pqrse.name) }}
+					"style="text-decoration: none;color:white">EDIT</a></button>
+					<button type="button" class="btn btn-danger" style="background-color:green"><a href="{{
+					url_for('deleteInstitutionCourse',pqrsid=pqrs.id,pqrsbename=pqrse.name)}}
+					"style="text-decoration: none;color:white">DELETE</a></button>
+			</div>
+			{% endif %}	
+			
+		</div>
+	</div>
+{% endfor %}
+</div>
+{% endblock content %}
+</div>

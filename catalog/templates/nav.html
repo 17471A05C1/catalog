@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <titleInstitution Centers</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+  <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+  <style>
+    body {
+      font-family: "cursive", sans-serif;
+    }
+
+    .sidenav {
+      height: 100%;
+      width: 300px;
+      position: fixed;
+      z-index: 1;
+      top: 50px;
+      left: 0;
+      background-color: indigo;
+      overflow-x:visible;
+      padding-top: 10px;
+	  border-radius:60px;
+    }
+
+    .sidenav a {
+      padding: 6px 6px 6px 32px;
+      text-decoration: none;
+      font-size: 20px;
+      color: white;
+      display: block;
+    }
+
+    .sidenav a:hover {
+      color: violet;
+    }
+
+    .main {
+      margin-left: 320px;	  /* Same as the width of the sidenav */
+
+    }
+
+    @media screen and (max-height: 40px) {
+      .sidenav {padding-top: 15px;}
+      .sidenav a {font-size: 18px;}
+    }
+  </style>
+  {% block head %}{% endblock head %}
+</head>
+<body>
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <script>
+            var messages = {{ messages | safe }};
+            for (var i=0; i<messages.length; i++) {
+              alert(messages[i]);
+            }
+          </script>
+        {% endif %}
+{% endwith %}
+<nav class="navbar navbar-inverse  navbar-fixed-top" style="background-color:indigo;float:right">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{{ url_for('home') }}" style="color:blue;font-size:40px;background-color:white">Institution Centers</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      {% if 'username' in session %}
+            <li><button class="btn btn-warning mr-sm-2" style="margin-top: 5x;color:violet;font-size:15px"><a href="{{ url_for('addInstitutionName')}}">ADD Institution Name</a></button></li>
+            <li style="margin:10px;"><p class="text-primary mr-sm-2" style="color:violet">{{ session.username }}</p></li>
+			
+            <li><a href="{{ url_for('logout')}}"><span class="glyphicon glyphicon-log-in" style="color:red"></span> LOGOUT</a></li>
+      {% else %}
+            <li><a href="{{ url_for('showLogin')}}"><span class="glyphicon glyphicon-log-in" style="color:red"></span> LOGIN</a></li>
+      {% endif %}
+      
+    </ul>
+  </div>
+</nav>
+  
+<div class="sidenav">
+  <table>
+      {% for pqrsb in pqrs_rat %}
+      <tr>
+          <td><a href="{{ url_for('showInstitutions',pqrsid=pqrsb.id)}}">{{pqrsb.name}}</a></td>
+          {% if 'username' in session %}
+            <td><a href = "{{ url_for('editInstitutionName',pqrsid=pqrsb.id)}}">
+            <span class="glyphicon glyphicon-pencil pull-right " data-toggle="tooltip" title="Edit Category" data-placement="bottom"> </span> </a></td>
+            <td><a href = "{{ url_for('deleteInstitutionName',pqrsid=pqrsb.id)}}">
+            <span class="glyphicon glyphicon-trash pull-right" data-toggle="tooltip" title="Delete Category" data-placement="top"> </span> </a></td>  
+          {% endif %}   
+        </tr>              
+      {% endfor %}
+  </table>
+</div>
+<div class="container">
+
+      <div class="main" style="margin-top: 50px;margin-bottom:0px">
+        
+            {% block content %}
+              
+            {% endblock content %}
+          
+        </div>
+  </div>
+  
+</body>
+</html>
